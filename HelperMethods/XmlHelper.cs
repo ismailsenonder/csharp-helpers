@@ -14,7 +14,7 @@ namespace HelperMethods
         /// <summary>
         /// Returns XML file as DataSet
         /// XmlHelper a = new XmlHelper();
-        /// DataTable d = XmlHelper.ReturnXmlAsDataSet("~/App_Data/UserData.xml").Tables[0];
+        /// DataTable d = a.ReturnXmlAsDataSet("~/App_Data/UserData.xml").Tables[0];
         /// </summary>
         /// <param name="xmlPath">the path of the xml file as string</param>
         /// <returns>DataSet</returns>

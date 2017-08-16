@@ -14,7 +14,7 @@ namespace HelperMethods
         /// Sends Email
         /// </summary>
         /// <param name="smtpServer">smtp server ip or address as string: "mail.senonder.com"</param>
-        /// <param name="to">to e-mail address as string</param>
+        /// <param name="to">to e-mail address as string. Can be more than one address using ";" as seperator.</param>
         /// <param name="from">from e-mail address as string</param>
         /// <param name="fromName">e-mail from name as string</param>
         /// <param name="portNumber">port number as int. E.g. 25 or 587</param>
@@ -39,7 +39,10 @@ namespace HelperMethods
                 email.From = new MailAddress(from);
                 email.Subject = subject;
                 email.Body = body;
-                email.To.Add(to);
+                foreach (var address in to.Split(';'))
+                {
+                    email.To.Add(new MailAddress(address.Trim(), ""));
+                }
                 server.Send(email);
 
                 return Tuple.Create(true, "Success");

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelperMethods
 {
-    public class StringHelper
+    public static class StringHelper
     {
         #region RemoveExtraHtmlCode
         /// <summary>
@@ -17,7 +17,7 @@ namespace HelperMethods
         /// <param name="htmlString">the html string to be converted</param>
         /// <returns>string</returns>
         /// Not tested
-        public string RemoveExtraHtmlCode(string htmlString)
+        public static string RemoveExtraHtmlCode(string htmlString)
         {
             htmlString = Regex.Replace(htmlString, @"(<style.+?</style>)|(<script.+?</script>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             htmlString = Regex.Replace(htmlString, @"(<img.+?>)", "", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -27,6 +27,28 @@ namespace HelperMethods
             htmlString = Regex.Replace(htmlString, @"class=.+?\s", " ", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             return htmlString;
+        }
+        #endregion
+
+        #region ShortenToCharacterLimit
+        /// <summary>
+        /// Shortens the string to the given character limit and adds "..." at the end.
+        /// If the string count is smaller than the character limit, returns the original string.
+        /// </summary>
+        /// <param name="strInput">the string to be shortened</param>
+        /// <param name="characterLimit">character limit (integer)</param>
+        /// <returns>string</returns>
+        /// Not tested
+        public static string ShortenToCharacterLimit(this string strInput, int characterLimit)
+        {
+            if (strInput.Length > characterLimit)
+            {
+                return strInput.Substring(0, characterLimit) + "...";
+            }
+            else
+            {
+                return strInput;
+            }
         }
         #endregion
     }

@@ -26,12 +26,12 @@ namespace HelperMethods
         /// bool: true if success, false if fail
         /// string: "Success" if success, "Fail: " + exception message if fail
         public Tuple<bool, string> SendMail(string smtpServer, string to, string from, string fromName, int portNumber,
-            string subject, string body, string userName, string password)
+            string subject, string body, string userName, string password, bool enableSsl)
         {
             try
             {
                 SmtpClient server = new SmtpClient(smtpServer);
-                server.EnableSsl = false;
+                server.EnableSsl = enableSsl;
                 server.Port = portNumber;
                 server.Credentials = new System.Net.NetworkCredential(userName, password);
                 MailMessage email = new MailMessage();

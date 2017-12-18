@@ -13,15 +13,15 @@ namespace HelperMethods
         /// <summary>
         /// Sends Email
         /// </summary>
-        /// <param name="smtpServer">smtp server ip or address as string: "mail.senonder.com"</param>
-        /// <param name="to">to e-mail address as string. Can be more than one address using ";" as seperator.</param>
-        /// <param name="from">from e-mail address as string</param>
-        /// <param name="fromName">e-mail from name as string</param>
-        /// <param name="portNumber">port number as int. E.g. 25 or 587</param>
-        /// <param name="subject">e-mail subject as string</param>
-        /// <param name="body">e-mail HTML body (or plain text) as string</param>
-        /// <param name="userName">smtp username as string: "info@senonder.com"</param>
-        /// <param name="password">smtp password as string</param>
+        /// <param name="smtpServer">mail.example.com</param>
+        /// <param name="to">person1@example.com;person2@example.com;person3@example.com</param>
+        /// <param name="from">fromemail@example.com</param>
+        /// <param name="fromName">Example Sender</param>
+        /// <param name="portNumber">587</param>
+        /// <param name="subject">Mail Subject</param>
+        /// <param name="body">e-mail HTML body (or plain text)</param>
+        /// <param name="userName">info@example.com</param>
+        /// <param name="password">smtppassword</param>
         /// <returns>Tuple containing a bool and a string</returns>
         /// bool: true if success, false if fail
         /// string: "Success" if success, "Fail: " + exception message if fail

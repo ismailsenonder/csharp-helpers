@@ -8,16 +8,14 @@ namespace HelperMethods
 {
     public class DateHelper
     {
+        #region CalculateWorkDays
         /// <summary>
-        /// Returns business days count between two given dates
-        /// business days: week days except saturday and sunday.
+        /// Calculates work days between two given dates (no saturday and sunday).
         /// </summary>
         /// <param name="firstDay"></param>
         /// <param name="lastDay"></param>
         /// <returns>int</returns>
-        /// TESTED +
-        #region BusinessDaysUntil
-        public int BusinessDaysUntil(DateTime firstDay, DateTime lastDay)
+        public int CalculateWorkDays(DateTime firstDay, DateTime lastDay)
         {
             firstDay = firstDay.Date;
             lastDay = lastDay.Date;

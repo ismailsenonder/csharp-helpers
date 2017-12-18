@@ -14,7 +14,6 @@ namespace HelperMethods
         /// Returns Web Visitor IP Address as string
         /// </summary>
         /// <returns>string</returns>
-        /// Not tested in latest browsers.
         public string GetWebUserIPAddress()
         {
             string VisitorsIPAddr = string.Empty;

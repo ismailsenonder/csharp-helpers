@@ -53,5 +53,21 @@ namespace HelperMethods
             }
         }
         #endregion
+
+        #region RemoveIllegalQueryCharacters
+        /// <summary>
+        /// Removes illegal query characters from a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>string</returns>
+        public static string RemoveIllegalQueryCharacters(string value)
+        {
+            return value.Replace("\"", "")
+                        .Replace("’", "")
+                        .Replace("'", "")
+                        .Replace(",", "");
+
+        }
+        #endregion
     }
 }

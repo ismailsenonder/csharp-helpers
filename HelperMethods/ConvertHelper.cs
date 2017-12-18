@@ -14,6 +14,7 @@ namespace HelperMethods
         /// </summary>
         /// <param name="temperatureCelsius">Celcius value</param>
         /// <returns>double</returns>
+
         public static double CelsiusToFahrenheit(string temperatureCelsius)
         {
             return (Double.Parse(temperatureCelsius) * 9 / 5) + 32;
@@ -26,7 +27,6 @@ namespace HelperMethods
         /// </summary>
         /// <param name="temperatureFahrenheit">Fahrenheit value</param>
         /// <returns>double</returns>
-        /// Not tested
         public static double FahrenheitToCelsius(string temperatureFahrenheit)
         {
             return (Double.Parse(temperatureFahrenheit) - 32) * 5 / 9;

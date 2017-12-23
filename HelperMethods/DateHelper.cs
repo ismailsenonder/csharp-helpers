@@ -8,16 +8,14 @@ namespace HelperMethods
 {
     public class DateHelper
     {
+        #region CalculateWorkDays
         /// <summary>
-        /// Returns business days count between two given dates
-        /// business days: week days except saturday and sunday.
+        /// Calculates work days between two given dates (no saturday and sunday).
         /// </summary>
         /// <param name="firstDay"></param>
         /// <param name="lastDay"></param>
         /// <returns>int</returns>
-        /// TESTED +
-        #region BusinessDaysUntil
-        public int BusinessDaysUntil(DateTime firstDay, DateTime lastDay)
+        public int CalculateWorkDays(DateTime firstDay, DateTime lastDay)
         {
             firstDay = firstDay.Date;
             lastDay = lastDay.Date;
@@ -48,6 +46,53 @@ namespace HelperMethods
 
             businessDays -= fullWeekCount + fullWeekCount;
             return businessDays;
+        }
+        #endregion
+
+        #region TimeAgo
+        /// <summary>
+        /// Gives appropriate string value for the timespan between now and given date.
+        /// </summary>
+        /// <param name="dateInput">The date input.</param>
+        /// <returns>string</returns>
+        public string TimeAgo(DateTime dateInput)
+        {
+            if (dateInput > DateTime.Now)
+                return "about sometime from now";
+            TimeSpan span = DateTime.Now - dateInput;
+
+            if (span.Days > 365)
+            {
+                int years = (span.Days / 365);
+                if (span.Days % 365 != 0)
+                    years += 1;
+                return String.Format("about {0} {1} ago", years, years == 1 ? "year" : "years");
+            }
+
+            if (span.Days > 30)
+            {
+                int months = (span.Days / 30);
+                if (span.Days % 31 != 0)
+                    months += 1;
+                return String.Format("about {0} {1} ago", months, months == 1 ? "month" : "months");
+            }
+
+            if (span.Days > 0)
+                return String.Format("about {0} {1} ago", span.Days, span.Days == 1 ? "day" : "days");
+
+            if (span.Hours > 0)
+                return String.Format("about {0} {1} ago", span.Hours, span.Hours == 1 ? "hour" : "hours");
+
+            if (span.Minutes > 0)
+                return String.Format("about {0} {1} ago", span.Minutes, span.Minutes == 1 ? "minute" : "minutes");
+
+            if (span.Seconds > 5)
+                return String.Format("about {0} seconds ago", span.Seconds);
+
+            if (span.Seconds <= 5)
+                return "just now";
+
+            return string.Empty;
         }
         #endregion
     }

@@ -9,6 +9,7 @@ namespace HelperMethods
 {
     public static class SqlHelper
     {
+        #region GetRowValue
         /// <summary>
         /// Returns column value of a given row by converting it to given type T. 
         /// If the value is null, returns given default value of type T.
@@ -38,5 +39,6 @@ namespace HelperMethods
 
             return returnValue;
         }
+        #endregion
     }
 }

@@ -125,46 +125,7 @@ namespace HelperMethods
         }
         #endregion
 
-        #region XMLPost
-        /// <summary>
-        /// Post given xml data to given address
-        /// </summary>
-        /// <param name="PostAddress"></param>
-        /// <param name="xmlData"></param>
-        /// <returns>string</returns>
-        public string XMLPost(string PostAddress, string xmlData)
-        {
-            try
-            {
-                WebClient wUpload = new WebClient();
-                HttpWebRequest request = WebRequest.Create(PostAddress) as HttpWebRequest;
-                request.Method = "POST";
-
-                byte[] byteArray = Encoding.UTF8.GetBytes(xmlData);
-                request.ContentType = "text/xml; charset=utf-8";
-                request.ContentLength = byteArray.Length;
-                Stream dataStream = request.GetRequestStream();
-                dataStream.Write(byteArray, 0, byteArray.Length);
-                dataStream.Close();
-
-                WebResponse response = request.GetResponse();
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-                dataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataStream, Encoding.UTF8);
-                string result = reader.ReadToEnd();
-
-                reader.Close();
-                dataStream.Close();
-                response.Close();
-
-                return result;
-            }
-            catch
-            {
-                return "-1";
-            }
-        }
-        #endregion
+        
 
     }
 }

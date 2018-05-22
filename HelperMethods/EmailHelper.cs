@@ -27,7 +27,7 @@ namespace HelperMethods
         /// bool: true if success, false if fail
         /// string: "Success" if success, "Fail: " + exception message if fail
         public Tuple<bool, string> SendMail(string smtpServer, string to, string from, string fromName, int portNumber,
-            string subject, string body, string userName, string password, bool enableSsl)
+            string subject, string body, string userName, string password, bool enableSsl, bool isBodyHtml)
         {
             try
             {
@@ -40,6 +40,7 @@ namespace HelperMethods
                 email.From = new MailAddress(from);
                 email.Subject = subject;
                 email.Body = body;
+                email.IsBodyHtml = isBodyHtml;
                 foreach (var address in to.Split(';'))
                 {
                     email.To.Add(new MailAddress(address.Trim(), ""));
@@ -74,7 +75,7 @@ namespace HelperMethods
         /// bool: true if success, false if fail
         /// string: "Success" if success, "Fail: " + exception message if fail
         public Tuple<bool, string> SendMailWithGmailAddress(string smtpServer, string to, string toName, string from, string fromName, int portNumber,
-            string mailsubject, string mailbody, string password, bool enableSsl)
+            string mailsubject, string mailbody, string password, bool enableSsl, bool isBodyHtml)
         {
             try
             {
@@ -96,7 +97,8 @@ namespace HelperMethods
                 using (var message = new MailMessage(fromAddress, toAddress)
                 {
                     Subject = subject,
-                    Body = body
+                    Body = body,
+                    IsBodyHtml = isBodyHtml,
                 })
                 {
                     smtp.Send(message);
@@ -112,5 +114,7 @@ namespace HelperMethods
         }
 
         #endregion
+
+
     }
 }

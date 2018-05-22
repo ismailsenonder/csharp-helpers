@@ -125,7 +125,142 @@ namespace HelperMethods
         }
         #endregion
 
-        
+        //FIX, TEST AND SORT
+
+        public void ExecuteJavascript(string sJavascriptCode)
+        {
+            if (HttpContext.Current.CurrentHandler is Page)
+            {
+                Page p = (Page)HttpContext.Current.CurrentHandler;
+
+                if (ScriptManager.GetCurrent(p) != null)
+                {
+                    ScriptManager.RegisterStartupScript(p, typeof(Page), "CustomScript", sJavascriptCode, true);
+                }
+                else
+                {
+                    p.ClientScript.RegisterStartupScript(typeof(Page), "CustomScript", sJavascriptCode, true);
+                }
+            }
+        }
+        public void MessageBox(string sMessage)
+        {
+            sMessage = "alert('" + sMessage + "');";
+            if (HttpContext.Current.CurrentHandler is Page)
+            {
+                Page p = (Page)HttpContext.Current.CurrentHandler;
+
+                if (ScriptManager.GetCurrent(p) != null)
+                {
+                    ScriptManager.RegisterStartupScript(p, typeof(Page), "Message", sMessage, true);
+                }
+                else
+                {
+                    p.ClientScript.RegisterStartupScript(typeof(Page), "Message", sMessage, true);
+                }
+            }
+        }
+
+        public string GetResponse(string url)
+        {
+            WebRequest request = WebRequest.Create(
+               url);
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            // Get the response.
+            WebResponse response = request.GetResponse();
+            // Display the status.
+            //Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+            // Get the stream containing content returned by the server.
+            Stream dataStream = response.GetResponseStream();
+            // Open the stream using a StreamReader for easy access.
+            StreamReader reader = new StreamReader(dataStream);
+            // Read the content.
+            string responseFromServer = reader.ReadToEnd();
+            // Display the content.
+            //Console.WriteLine(responseFromServer);
+            // Clean up the streams and the response.
+            reader.Close();
+            response.Close();
+            return responseFromServer;
+        }
+
+        public bool Exist(string url)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    return response.StatusCode == HttpStatusCode.OK;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public string XMLPost(string PostAddress, string xmlData)
+        {
+            try
+            {
+                WebClient wUpload = new WebClient();
+                HttpWebRequest request = WebRequest.Create(PostAddress) as HttpWebRequest;
+                request.Method = "POST";
+
+                byte[] byteArray = Encoding.UTF8.GetBytes(xmlData);
+                request.ContentType = "text/xml; charset=utf-8";
+                request.ContentLength = byteArray.Length;
+                Stream dataStream = request.GetRequestStream();
+                dataStream.Write(byteArray, 0, byteArray.Length);
+                dataStream.Close();
+
+                WebResponse response = request.GetResponse();
+                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream, Encoding.UTF8);
+                string result = reader.ReadToEnd();
+
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+
+                return result;
+            }
+            catch
+            {
+                return "-1";
+            }
+        }
+
+        //gets QueryString and Key name, returns value. if it is null, returns (T)nullValue.
+        public T GetQueryStringValue<T>(NameValueCollection col, string key, T nullValue)
+        {
+            T returnValue = default(T);
+
+            try
+            {
+                if (col[key] == null)
+                    returnValue = nullValue;
+                else
+                {
+                    if (typeof(T) == typeof(string))
+                    {
+                        Others o = new Others();
+                        returnValue = (T)Convert.ChangeType(o.RemoveIllegalQueryCharacters(col[key].ToString()), typeof(T));
+                    }
+                    else
+                        returnValue = (T)Convert.ChangeType(col[key], typeof(T));
+                }
+            }
+            catch
+            {
+                returnValue = nullValue;
+            }
+
+            return returnValue;
+        }
 
     }
 }

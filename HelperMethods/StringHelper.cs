@@ -69,5 +69,104 @@ namespace HelperMethods
 
         }
         #endregion
+
+        // THESE FUNCTIONS NEED SORTING, SUMMARY AND TEST
+        public static bool IsNumeric(this String str)
+        {
+            int n;
+            bool isNumeric = int.TryParse(str, out n);
+            return isNumeric;
+        }
+
+        public static bool IsNumeric(this object str)
+        {
+            bool isNumeric = false;
+            if (str != null)
+            {
+                int n;
+                isNumeric = int.TryParse(str.ToString(), out n);
+            }
+
+            return isNumeric;
+        }
+
+        public static bool IsDate(this String str)
+        {
+            DateTime n;
+            bool isDate = DateTime.TryParse(str, out n);
+            return isDate;
+        }
+
+        public static bool IsTime(this String str)
+        {
+            TimeSpan n;
+            bool isTime = TimeSpan.TryParse(str, out n);
+            return isTime;
+        }
+
+        //THERE CAN BE MORE THAN ONE DOT (.) FIX THIS METHOD!
+        public static string GetFileExtension(this string str)
+        {
+            string oReturn = "";
+            try
+            {
+                oReturn = str.Substring(str.IndexOf("."));
+            }
+            catch { }
+            return oReturn;
+        }
+
+        public static bool checkNotNullOrEmpty(this DataTable table)
+        {
+            return (table != null && table.Rows.Count > 0 && table.Columns.Count > 0);
+        }
+
+        public static bool ContainsColumn(this DataTable table, string columnName)
+        {
+            DataColumnCollection columns = table.Columns;
+            return columns.Contains(columnName);
+        }
+
+        public static T EnsureNotNull<T>(this object value, T DefaultValue)
+        {
+            T returnValue = default(T);
+            try
+            {
+                if (value != null)
+                {
+                    //TimeSpan is not IConvertible, so this has to be done:
+                    if (value.GetType() == typeof(TimeSpan) && typeof(T) == typeof(String))
+                    {
+                        TimeSpan ts = TimeSpan.Parse(value.ToString());
+                        DateTime d = new DateTime(ts.Ticks);
+                        returnValue = (T)Convert.ChangeType(d.ToString("HH:mm:ss"), typeof(T));
+                    }
+                    else
+                    {
+                        returnValue = (T)value;
+                    }
+                }
+
+                else
+                {
+                    returnValue = DefaultValue;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    returnValue = (T)Convert.ChangeType(value, typeof(T));
+                }
+                catch
+                {
+                    //oLog.Error("EnsureNotNull fonksiyonunda hata oluştu ve convert edemedi: " + e);
+                    return returnValue;
+                }
+            }
+
+            return returnValue;
+        }
     }
 }

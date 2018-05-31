@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -60,7 +61,7 @@ namespace HelperMethods
         /// </summary>
         /// <param name="value"></param>
         /// <returns>string</returns>
-        public static string RemoveIllegalQueryCharacters(string value)
+        public static string RemoveIllegalQueryCharacters(this string value)
         {
             return value.Replace("\"", "")
                         .Replace("’", "")
@@ -70,7 +71,12 @@ namespace HelperMethods
         }
         #endregion
 
-        // THESE FUNCTIONS NEED SORTING, SUMMARY AND TEST
+        #region TypeCheckers
+        /// <summary>
+        /// These methods check if a string or an object is of that type
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>bool</returns>
         public static bool IsNumeric(this String str)
         {
             int n;
@@ -103,30 +109,22 @@ namespace HelperMethods
             bool isTime = TimeSpan.TryParse(str, out n);
             return isTime;
         }
+        #endregion
+
 
         //THERE CAN BE MORE THAN ONE DOT (.) FIX THIS METHOD!
-        public static string GetFileExtension(this string str)
-        {
-            string oReturn = "";
-            try
-            {
-                oReturn = str.Substring(str.IndexOf("."));
-            }
-            catch { }
-            return oReturn;
-        }
+        //public static string GetFileExtension(this string str)
+        //{
+        //    string oReturn = "";
+        //    try
+        //    {
+        //        oReturn = str.Substring(str.IndexOf("."));
+        //    }
+        //    catch { }
+        //    return oReturn;
+        //}
 
-        public static bool checkNotNullOrEmpty(this DataTable table)
-        {
-            return (table != null && table.Rows.Count > 0 && table.Columns.Count > 0);
-        }
-
-        public static bool ContainsColumn(this DataTable table, string columnName)
-        {
-            DataColumnCollection columns = table.Columns;
-            return columns.Contains(columnName);
-        }
-
+        #region EnsureNotNull
         public static T EnsureNotNull<T>(this object value, T DefaultValue)
         {
             T returnValue = default(T);
@@ -161,12 +159,12 @@ namespace HelperMethods
                 }
                 catch
                 {
-                    //oLog.Error("EnsureNotNull fonksiyonunda hata oluştu ve convert edemedi: " + e);
                     return returnValue;
                 }
             }
 
             return returnValue;
         }
+        #endregion
     }
 }

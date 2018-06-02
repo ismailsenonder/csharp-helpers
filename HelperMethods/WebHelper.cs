@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 
 namespace HelperMethods
 {
@@ -125,8 +126,12 @@ namespace HelperMethods
         }
         #endregion
 
-        //FIX, TEST AND SORT
-
+        #region ExecuteJavascript
+        /// <summary>
+        /// Runs javascript code on web page
+        /// </summary>
+        /// <param name="sJavascriptCode">javascript code as string</param>
+        /// <returns></returns>
         public void ExecuteJavascript(string sJavascriptCode)
         {
             if (HttpContext.Current.CurrentHandler is Page)
@@ -143,7 +148,16 @@ namespace HelperMethods
                 }
             }
         }
-        public void MessageBox(string sMessage)
+
+        #endregion 
+
+        #region JsMessageBox
+        /// <summary>
+        /// Shows javascript alert box on web page
+        /// </summary>
+        /// <param name="sMessage">alert box message as string</param>
+        /// <returns></returns>
+        public void JsMessageBox(string sMessage)
         {
             sMessage = "alert('" + sMessage + "');";
             if (HttpContext.Current.CurrentHandler is Page)
@@ -160,6 +174,12 @@ namespace HelperMethods
                 }
             }
         }
+
+        #endregion
+
+        //FIX, TEST AND SORT
+
+        
 
         public string GetResponse(string url)
         {

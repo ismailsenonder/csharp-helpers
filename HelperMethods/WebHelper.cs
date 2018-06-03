@@ -177,50 +177,13 @@ namespace HelperMethods
 
         #endregion
 
-        //FIX, TEST AND SORT
-
-        
-
-        public string GetResponse(string url)
-        {
-            WebRequest request = WebRequest.Create(
-               url);
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.
-            WebResponse response = request.GetResponse();
-            // Display the status.
-            //Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.
-            //Console.WriteLine(responseFromServer);
-            // Clean up the streams and the response.
-            reader.Close();
-            response.Close();
-            return responseFromServer;
-        }
-
-        public bool Exist(string url)
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                {
-                    return response.StatusCode == HttpStatusCode.OK;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
+        #region XMLPost
+        /// <summary>
+        /// Posts xml string to specified url
+        /// </summary>
+        /// <param name="PostAddress">url as string</param>
+        /// <param name="xmlData">xml as string</param>
+        /// <returns>response as string</returns>
         public string XMLPost(string PostAddress, string xmlData)
         {
             try
@@ -254,33 +217,7 @@ namespace HelperMethods
             }
         }
 
-        //gets QueryString and Key name, returns value. if it is null, returns (T)nullValue.
-        public T GetQueryStringValue<T>(NameValueCollection col, string key, T nullValue)
-        {
-            T returnValue = default(T);
-
-            try
-            {
-                if (col[key] == null)
-                    returnValue = nullValue;
-                else
-                {
-                    if (typeof(T) == typeof(string))
-                    {
-                        Others o = new Others();
-                        returnValue = (T)Convert.ChangeType(o.RemoveIllegalQueryCharacters(col[key].ToString()), typeof(T));
-                    }
-                    else
-                        returnValue = (T)Convert.ChangeType(col[key], typeof(T));
-                }
-            }
-            catch
-            {
-                returnValue = nullValue;
-            }
-
-            return returnValue;
-        }
-
+        #endregion
+        
     }
 }

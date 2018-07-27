@@ -111,7 +111,7 @@ namespace HelperMethods
         }
         #endregion
 
-
+        //test
         //THERE CAN BE MORE THAN ONE DOT (.) FIX THIS METHOD!
         //public static string GetFileExtension(this string str)
         //{

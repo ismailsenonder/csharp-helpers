@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace HelperMethods
 {
-    public class DateHelper
+    public static class DateHelper
     {
         #region CalculateWorkDays
         /// <summary>
-        /// Calculates work days between two given dates (no weekend).
+        /// Calculates work days between two given dates (excluding weekend).
         /// </summary>
-        /// <param name="firstDay"></param>
-        /// <param name="lastDay"></param>
-        /// <returns>int</returns>
-        public int CalculateWorkDays(DateTime firstDay, DateTime lastDay)
+        public static int CalculateWorkDays(DateTime firstDay, DateTime lastDay)
         {
             firstDay = firstDay.Date;
             lastDay = lastDay.Date;
@@ -53,9 +50,7 @@ namespace HelperMethods
         /// <summary>
         /// Gives appropriate string value for the timespan between now and given date.
         /// </summary>
-        /// <param name="dateInput">The date input.</param>
-        /// <returns>string</returns>
-        public string TimeAgo(DateTime dateInput)
+        public static string TimeAgo(this DateTime dateInput)
         {
             if (dateInput > DateTime.Now)
                 return "coming soon...";

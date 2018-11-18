@@ -9,17 +9,20 @@ namespace HelperMethods
 {
     public static class DataHelper
     {
-
+        #region checkNotNullOrEmpty
         public static bool checkNotNullOrEmpty(this DataTable table)
         {
             return (table != null && table.Rows.Count > 0 && table.Columns.Count > 0);
         }
+        #endregion
 
+        #region ContainsColumn
         public static bool ContainsColumn(this DataTable table, string columnName)
         {
             DataColumnCollection columns = table.Columns;
             return columns.Contains(columnName);
         }
+        #endregion
 
     }
 }

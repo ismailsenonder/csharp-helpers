@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HelperMethods
 {
-    public class SqlHelper
+    public static class SqlHelper
     {
         #region ValueConverter
         internal class ValueConverter<T>
@@ -70,7 +71,7 @@ namespace HelperMethods
         /// <param name="columnName">Column Name</param>
         /// <param name="DefaultValue">Default Value if value is null</param>
         /// <returns>T</returns>
-        public T GetRowValue<T>(DataRow value, string rowName, T DefaultValue)
+        public static T GetRowValue<T>(this DataRow value, string rowName, T DefaultValue)
         {
             //T returnValue = default(T);
             object returnValue = DefaultValue;
@@ -130,7 +131,7 @@ namespace HelperMethods
         /// DataRow r = table.Rows[0];
         /// IList<PropertyInfo> properties = typeof(MyObject).GetProperties().ToList();
         /// myobject = CreateItemFromRow<MyObject>(r, properties);
-        public T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties) where T : new()
+        public static T CreateItemFromRow<T>(DataRow row, IList<PropertyInfo> properties) where T : new()
         {
             string p = "";
             T item = new T();
@@ -156,6 +157,32 @@ namespace HelperMethods
             {
                 return item;
             }
+        }
+        #endregion
+
+        #region getQueryFromMySqlCommand
+        /// <summary>
+        /// Returns the full command text with parameters from an SqlCommand
+        /// Good for debugging where using SQL profiler is not an option.
+        /// You can change the command type for different kind of connection. i.e MySqlCommand
+        /// </summary>
+        /// <param name="cmd">SqlCommand</param>
+        /// <returns>string</returns>
+        public static string getQueryFromMySqlCommand(this SqlCommand cmd)
+        {
+            string CommandTxt = cmd.CommandText;
+            foreach (SqlParameter parms in cmd.Parameters)
+            {
+                string val = String.Empty;
+                if (parms.DbType.Equals(DbType.String) || parms.DbType.Equals(DbType.DateTime))
+                    val = "'" + Convert.ToString(parms.Value).Replace(@"\", @"\\").Replace("'", @"\'") + "'";
+                if (parms.DbType.Equals(DbType.Int16) || parms.DbType.Equals(DbType.Int32) || parms.DbType.Equals(DbType.Int64) || parms.DbType.Equals(DbType.Decimal) || parms.DbType.Equals(DbType.Double))
+                    val = Convert.ToString(parms.Value);
+                //string paramname = "@" + parms.ParameterName;
+                string paramname = parms.ParameterName;
+                CommandTxt = CommandTxt.Replace(paramname, val);
+            }
+            return (CommandTxt);
         }
         #endregion
 

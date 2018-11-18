@@ -14,10 +14,6 @@ namespace HelperMethods
     public class WebHelper
     {
         #region GetWebUserIPAddress
-        /// <summary>
-        /// Returns Web Visitor IP Address as string
-        /// </summary>
-        /// <returns>string</returns>
         public string GetWebUserIPAddress()
         {
             string VisitorsIPAddr = string.Empty;
@@ -35,16 +31,8 @@ namespace HelperMethods
         #endregion
 
         #region GetQueryStringValue
-        /// <summary>
-        /// Gets the requested querystring value. If null, returns the specified default value.
-        /// Usage: string myVal = GetQueryStringValue(Request.QueryString, "myQueryVal", "Default Value");
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="col"></param>
-        /// <param name="key"></param>
-        /// <param name="nullValue"></param>
-        /// <returns>T</returns>
         //gets QueryString and Key name, returns value. if it is null, returns (T)nullValue.
+        // Usage: string myVal = GetQueryStringValue(Request.QueryString, "myQueryVal", "Default Value");
         public T GetQueryStringValue<T>(NameValueCollection col, string key, T nullValue)
         {
             T returnValue = default(T);
@@ -73,11 +61,6 @@ namespace HelperMethods
         #endregion
 
         #region GetWebResponse
-        /// <summary>
-        /// Gets web response from given url.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns>string</returns>
         public string GetWebResponse(string url)
         {
             WebRequest request = WebRequest.Create(
@@ -104,11 +87,6 @@ namespace HelperMethods
         #endregion
 
         #region WebSiteAlive
-        /// <summary>
-        /// Checks if given website is alive or not
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns>bool</returns>
         public bool WebSiteAlive(string url)
         {
             try
@@ -127,11 +105,6 @@ namespace HelperMethods
         #endregion
 
         #region ExecuteJavascript
-        /// <summary>
-        /// Runs javascript code on web page
-        /// </summary>
-        /// <param name="sJavascriptCode">javascript code as string</param>
-        /// <returns></returns>
         public void ExecuteJavascript(string sJavascriptCode)
         {
             if (HttpContext.Current.CurrentHandler is Page)
@@ -152,11 +125,6 @@ namespace HelperMethods
         #endregion 
 
         #region JsMessageBox
-        /// <summary>
-        /// Shows javascript alert box on web page
-        /// </summary>
-        /// <param name="sMessage">alert box message as string</param>
-        /// <returns></returns>
         public void JsMessageBox(string sMessage)
         {
             sMessage = "alert('" + sMessage + "');";
@@ -178,12 +146,6 @@ namespace HelperMethods
         #endregion
 
         #region XMLPost
-        /// <summary>
-        /// Posts xml string to specified url
-        /// </summary>
-        /// <param name="PostAddress">url as string</param>
-        /// <param name="xmlData">xml as string</param>
-        /// <returns>response as string</returns>
         public string XMLPost(string PostAddress, string xmlData)
         {
             try
@@ -216,8 +178,7 @@ namespace HelperMethods
                 return "-1";
             }
         }
-
         #endregion
-        
+
     }
 }

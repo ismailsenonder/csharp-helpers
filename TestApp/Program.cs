@@ -12,8 +12,13 @@ namespace TestApp
         
         static void Main(string[] args)
         {
-            EmailHelper mailHelper = new EmailHelper();
+            string a = "112.88";
+            string b = "1690484,43543";
 
+            decimal? ad = a.ToDecimal();
+            decimal? bd = b.ToDecimal();
+
+            Console.Read();
  
             
         }

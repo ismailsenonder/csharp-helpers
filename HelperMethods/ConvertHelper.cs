@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,23 @@ namespace HelperMethods
         public static double FahrenheitToCelsius(this string temperatureFahrenheit)
         {
             return (Double.Parse(temperatureFahrenheit) - 32) * 5 / 9;
+        }
+        #endregion
+
+        #region ToDecimal
+        public static decimal? ToDecimal(this object value)
+        {
+            decimal retVal = 0;
+            bool converted = decimal.TryParse(value.ToString().Replace(",", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator).Replace(".", CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator),
+                NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out retVal);
+            if (converted)
+            {
+                return retVal;
+            }
+            else
+            {
+                return null;
+            }
         }
         #endregion
 

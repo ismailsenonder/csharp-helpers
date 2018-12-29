@@ -197,7 +197,7 @@ namespace HelperMethods
                 foreach (Datum dt in root.data)
                 {
                     instStr += @"<div class=""col-md-3 col-xs-3"">
-                  <a href=""" + dt.link + @""" target=""_blank""><img class=""_cr348"" src=""" + dt.images.thumbnail.url + @""" /></a></div>";
+                  <a href=""" + dt.link + @""" target=""_blank""><img src=""" + dt.images.thumbnail.url + @""" /></a></div>";
                 }
 
                 instStr += @"</div>";

@@ -207,5 +207,17 @@ namespace HelperMethods
         }
         #endregion
 
+        #region GetRequestHeaders
+        public string GetRequestHeaders(string requestAddressWithParemeters, string headername)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(requestAddressWithParemeters);
+            //Example: (HttpWebRequest)WebRequest.Create("http://requestexample.net/requestexample.ashx?id=123456&g=m");
+            var response = (HttpWebResponse)request.GetResponse();
+            WebHeaderCollection headers = response.Headers;
+            return headers.GetValues(headername)[0];
+            //or you can change this method and get all values and filter it in your code.
+        }
+        #endregion
+
     }
 }

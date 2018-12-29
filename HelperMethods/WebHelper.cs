@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
+using Newtonsoft.Json;
+using static HelperMethods.Objects.Instagram;
 
 namespace HelperMethods
 {
@@ -176,6 +178,31 @@ namespace HelperMethods
             catch
             {
                 return "-1";
+            }
+        }
+        #endregion
+
+        #region GetInstagramPosts
+        public string GetInstagramPosts(string accesstoken, int count)
+        {
+            //you have to do required tasks and get an accesstoken from instagram before being able to use this method.
+            using (WebClient wc = new WebClient())
+            {
+                var json = wc.DownloadString("https://api.instagram.com/v1/users/self/media/recent/?access_token=" + accesstoken + "&count=" + count.ToString());
+                var root = JsonConvert.DeserializeObject<RootObject>(json);
+
+                //this is my custom string, you can generate another string for your own use
+                string instStr = @"<div class=""row"">";
+
+                foreach (Datum dt in root.data)
+                {
+                    instStr += @"<div class=""col-md-3 col-xs-3"">
+                  <a href=""" + dt.link + @""" target=""_blank""><img class=""_cr348"" src=""" + dt.images.thumbnail.url + @""" /></a></div>";
+                }
+
+                instStr += @"</div>";
+
+                return instStr;
             }
         }
         #endregion

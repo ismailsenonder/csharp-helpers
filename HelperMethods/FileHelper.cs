@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +75,44 @@ namespace HelperMethods
                 }
             }
             
+        }
+        #endregion
+
+        #region ZipCompressFile
+        public static byte[] ZipCompressFile(byte[] file, object fileName, string extension)
+        {
+            MemoryStream zipStream = new MemoryStream();
+
+            using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create, true))
+            {
+                ZipArchiveEntry zipElement = zip.CreateEntry(fileName + "." + extension);
+                Stream entryStream = zipElement.Open();
+                entryStream.Write(file, 0, file.Length);
+                entryStream.Flush();
+                entryStream.Close();
+            }
+            zipStream.Position = 0;
+            return zipStream.ToArray();
+
+        }
+        #endregion
+
+        #region UncompressZipFile
+        public static byte[] UncompressZipFile(byte[] docData)
+        {
+            byte[] unzippedData = { };
+            MemoryStream zippedStream = new MemoryStream(docData);
+            using (ZipArchive archive = new ZipArchive(zippedStream))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    Stream zipStream = entry.Open();
+                    zipStream.CopyTo(ms);
+                    unzippedData = ms.ToArray();
+                }
+            }
+            return unzippedData;
         }
         #endregion
     }

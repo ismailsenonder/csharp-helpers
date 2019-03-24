@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,5 +25,19 @@ namespace HelperMethods
         }
         #endregion
 
+        #region GetCultureCodes
+
+        public static Dictionary<string,string> GetCultureCodes()
+        {
+            CultureInfo[] cinfo = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            Dictionary<string, string> cultureCodes = new Dictionary<string, string>();
+            foreach (CultureInfo cul in cinfo)
+            {
+                cultureCodes.Add(cul.DisplayName, cul.Name);
+            }
+            return cultureCodes;
+        }
+        
+        #endregion
     }
 }

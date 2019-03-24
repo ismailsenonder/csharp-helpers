@@ -115,5 +115,28 @@ namespace HelperMethods
             return unzippedData;
         }
         #endregion
+
+
+        public void DeleteFilesBeforeDate(int dateinterval, string literalpath)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(literalpath);
+
+                foreach (string file in files)
+                {
+                    FileInfo fi = new FileInfo(file);
+                    //If you want to log which files are deleted, do it in this line:
+                    //Console.WriteLine(fi.FullName + fi.CreationTime.ToString("yyyy-MM-dd"));
+                    if (fi.CreationTime < DateTime.Now.AddDays(dateinterval))
+                        fi.Delete();
+                }
+            }
+            catch (Exception ex)
+            {
+                //if you want to throw an exception or make a log, do it in this line:
+                //Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }

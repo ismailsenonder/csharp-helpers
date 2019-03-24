@@ -26,6 +26,8 @@ namespace HelperMethods
         #endregion
 
         #region ToDecimal
+        //convert an object (usually a string) to decimal number. You can use comma (,) or dot (.) for decimal seperator.
+        //returns null if given object is not convertible to decimal.
         public static decimal? ToDecimal(this object value)
         {
             decimal retVal = 0;

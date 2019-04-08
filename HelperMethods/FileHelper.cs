@@ -117,7 +117,7 @@ namespace HelperMethods
         #endregion
 
 
-        public void DeleteFilesBeforeDate(int dateinterval, string literalpath)
+        public static void DeleteFilesOlderThanDays(int dateinterval, string literalpath)
         {
             try
             {

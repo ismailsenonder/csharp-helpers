@@ -12,12 +12,12 @@ namespace TestApp
         
         static void Main(string[] args)
         {
-            string a = "112.88";
-            string b = "1690484,43543";
-
-            decimal? ad = a.ToDecimal();
-            decimal? bd = b.ToDecimal();
-
+            double a = 125.11;
+            Console.WriteLine(a.ToTurkishMoneyString());
+            double b = 15123999.22;
+            Console.WriteLine(b.ToTurkishMoneyString());
+            double c = 3;
+            Console.WriteLine(c.ToTurkishMoneyString());
             Console.Read();
  
             

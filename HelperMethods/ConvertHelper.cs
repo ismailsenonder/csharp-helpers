@@ -63,5 +63,73 @@ namespace HelperMethods
         }
         #endregion
 
+        #region ListToDataTable
+        public static string ToTurkishMoneyString(this double amount)
+        {
+            string strAmount = amount.ToString("F2").Replace('.', ',');           
+            string lira = strAmount.Substring(0, strAmount.IndexOf(','));
+            string kurus = strAmount.Substring(strAmount.IndexOf(',') + 1, 2);
+            string retVal = "";
+
+            string[] units = { "", "BİR", "İKİ", "ÜÇ", "DÖRT", "BEŞ", "ALTI", "YEDİ", "SEKİZ", "DOKUZ" };
+            string[] tens = { "", "ON", "YİRMİ", "OTUZ", "KIRK", "ELLİ", "ALTMIŞ", "YETMİŞ", "SEKSEN", "DOKSAN" };
+            string[] thousands = { "MİLYAR", "MİLYON", "BİN", "" }; //Add more at the beginning of this array if needed.
+
+
+            //This number indicates the count of every 3 digit groups in the amount
+            //We have up to Billions (Milyar in Turkish) in thousands array so it will be; 1,000,000,000.00 = 4
+            //if you add more to thousands array, you have to raise this count.
+            int threeDigitsGroupCount = 4;
+
+            lira = lira.PadLeft(threeDigitsGroupCount * 3, '0');           
+
+            string groupValue;
+
+            for (int i = 0; i < threeDigitsGroupCount * 3; i += 3)
+            {
+                groupValue = "";
+
+                if (lira.Substring(i, 1) != "0")
+                    groupValue += units[Convert.ToInt32(lira.Substring(i, 1))] + "YÜZ";                
+
+                if (groupValue == "BİRYÜZ")
+                    groupValue = "YÜZ";
+
+                groupValue += tens[Convert.ToInt32(lira.Substring(i + 1, 1))];
+
+                groupValue += units[Convert.ToInt32(lira.Substring(i + 2, 1))];                
+
+                if (groupValue != "")
+                    groupValue += thousands[i / 3];
+
+                if (groupValue == "BİRBİN")
+                    groupValue = "BİN";
+
+                retVal += groupValue;
+            }
+
+            if (retVal != "")
+                retVal += " LİRA ";
+
+            int stringLength = retVal.Length;
+
+            if (kurus.Substring(0, 1) != "0")
+                retVal += tens[Convert.ToInt32(kurus.Substring(0, 1))];
+
+            if (kurus.Substring(1, 1) != "0")
+                retVal += units[Convert.ToInt32(kurus.Substring(1, 1))];
+
+            if (retVal.Length > stringLength)
+                retVal += " Kuruş";
+            //else
+            //    retVal += "SIFIR Kuruş";
+
+            return retVal;
+        }
+        #endregion
+
+
+
+
     }
 }

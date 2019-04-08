@@ -129,7 +129,7 @@ namespace HelperMethods
         #endregion
 
         #region Factorial
-        public static int factorial(int n)
+        public static int Factorial(int n)
         {
             if (n <= 1)
                 return 1;

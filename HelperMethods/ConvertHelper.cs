@@ -63,7 +63,7 @@ namespace HelperMethods
         }
         #endregion
 
-        #region ListToDataTable
+        #region ToTurkishMoneyString
         public static string ToTurkishMoneyString(this double amount)
         {
             string strAmount = amount.ToString("F2").Replace('.', ',');           
@@ -128,7 +128,15 @@ namespace HelperMethods
         }
         #endregion
 
-
+        #region Factorial
+        public static int factorial(int n)
+        {
+            if (n <= 1)
+                return 1;
+            else
+                return n * factorial(n - 1);
+        }
+        #endregion
 
 
     }

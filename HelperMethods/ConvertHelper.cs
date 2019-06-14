@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace HelperMethods
 {
@@ -138,6 +139,96 @@ namespace HelperMethods
         }
         #endregion
 
+        //converts a class instance to xml formatted string
+        //NOT TESTED!
+        public static string ToXML(this object instanceToConvert)
+        {
+            using (var stringwriter = new System.IO.StringWriter())
+            {
+                var serializer = new XmlSerializer(instanceToConvert.GetType());
+                serializer.Serialize(stringwriter, instanceToConvert);
+                return stringwriter.ToString();
+            }
+        }
+
+        //converts an xml format string to the specified class instance
+        //NOT TESTED
+        public static T LoadFromXMLString<T>(string xmlText)
+        {
+            using (var stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(T));
+                return (T)serializer.Deserialize(stringReader);
+            }
+        }
+
+
+        //BUNLARA BAK BUNLARA
+        //public T XmlToClass<T>(string text)
+        //{
+        //    T root = default(T);
+
+        //    XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+        //    byte[] byteArray = Encoding.UTF8.GetBytes(text);
+        //    MemoryStream stream = new MemoryStream(byteArray);
+        //    StreamReader reader = new StreamReader(stream);
+
+        //    root = (T)serializer.Deserialize(reader);
+        //    reader.Close();
+        //    return root;
+        //}
+
+
+        //public String ClassToXml<T>(T classee)
+        //{
+        //    try
+        //    {
+        //        String XmlizedString = null;
+        //        MemoryStream memoryStream = new MemoryStream();
+        //        XmlSerializer xs = new XmlSerializer(typeof(T));
+        //        XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+        //        xs.Serialize(xmlTextWriter, classee);
+        //        memoryStream = (MemoryStream)xmlTextWriter.BaseStream;
+        //        XmlizedString = UTF8ByteArrayToString(memoryStream.ToArray());
+
+        //        return HttpUtility.HtmlDecode(XmlizedString);
+        //    }
+        //    catch (Exception e) { System.Console.WriteLine(e); return null; }
+        //}
+
+        //private String UTF8ByteArrayToString(Byte[] characters)
+        //{
+
+        //    UTF8Encoding encoding = new UTF8Encoding(true);
+        //    String constructedString = encoding.GetString(characters);
+        //    constructedString = constructedString.Remove(0, 1);
+
+        //    return (constructedString);
+        //}
+
+
+        //public static String EvaluateAsHtml(string inputstring)
+        //{
+        //    if (String.IsNullOrEmpty(inputstring))
+        //        return null;
+
+        //    string pattern = @"<html.*?>(.*?)</html>";
+        //    MatchCollection matches = Regex.Matches(inputstring, pattern);
+        //    if (matches.Count > 0)
+        //        return inputstring;
+        //    else
+        //    {
+        //        return String.Format("<html><head></head><body>{0}</body></html>", inputstring);
+        //    }
+
+        //}
+
+
+        /* write to file web
+         * System.IO.File.AppendAllText(System.Web.Hosting.HostingEnvironment.MapPath("~/") + DateTime.Now.ToString("yyyy-MM-dd") + "_CreateEmailCampaign",
+                DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "   " + m.ClassToXml(emailInfo));
+         * */
 
     }
 }
